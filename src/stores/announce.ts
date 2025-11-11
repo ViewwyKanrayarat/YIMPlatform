@@ -5,7 +5,7 @@ export const useAnnounce = defineStore("announce", {
     list: [] as unknown[],
   }),
     getters: {
-    listItems(state): unknown[] {
+    List(state): unknown[] {
       return state.list
     },
 

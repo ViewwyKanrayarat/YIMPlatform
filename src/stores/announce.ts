@@ -1,22 +1,25 @@
 import { defineStore } from "pinia"
 
-export const useAnnounce = defineStore('announce', {
+export const useAnnounce = defineStore("announce", {
   state: () => ({
     list: [] as unknown[],
-    isLoading: false as boolean,
-    error: null as string | null,
   }),
+    getters: {
+    List(state): unknown[] {
+      return state.list
+    },
+
+  },
   actions: {
     async getAnnounce() {
       try {
-        this.isLoading = true
-        const res = await fetch("/AppendixA.json") // ชี้ไป public root
+        const res = await fetch("../../public/data/AppendixA.json")
         const data = await res.json()
         this.list = data
+        // console.log("this.list", this.list)
       } catch (e: any) {
-        this.error = e?.message ?? "Failed to load announce"
-      } finally {
-        this.isLoading = false
+        console.log(e);
+    
       }
     },
   },

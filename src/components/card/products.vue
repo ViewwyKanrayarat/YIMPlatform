@@ -1,5 +1,5 @@
 <template>
-  <v-card class="layout-card pa-5 d-flex flex-column h-100" color="back">
+  <v-card @click="goToDetail" class="layout-card pa-5 d-flex flex-column h-100" color="back">
     <!-- รูปสินค้า -->
     <v-img   :src="items?.image_url?.[0] || ''" height="150" cover />
 
@@ -19,6 +19,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
+import { useRouter } from "vue-router"
+const router = useRouter()
 
 type propsModel = {
   items: {
@@ -43,7 +45,13 @@ const props = withDefaults(defineProps<propsModel>(), {
   }),
 })
 
-console.log("items:", props.items)
+// console.log("items:", props.items)
+
+const goToDetail = () => {
+  console.log('goToDetail');
+  
+  router.push(`home/detail/${props.items.sku}`)
+}
 </script>
 
 <style scoped>

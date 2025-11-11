@@ -1,0 +1,12 @@
+{
+  "config": {
+    "delivery_fee": {
+      "delivery_fee_amount": 100.00,
+      "minimum_cart_amount": 50000.00
+    },
+    "promotion": {
+      "discount_code": "YIMPLATFORM",
+      "discount_amount": 100.00
+    }
+  }
+}

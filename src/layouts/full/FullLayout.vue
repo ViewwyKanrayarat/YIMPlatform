@@ -1,9 +1,9 @@
 <template>
   <v-app class="full-layout">
-    <VerticalHeader />
+    <AnnounceHeader />
 
-    <v-main class="content-area">
-       <router-view />
+    <v-main>
+      <router-view />
     </v-main>
 
     <Footer />
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import VerticalHeader from "@/layouts/full/verticalHeader/verticalHeader.vue"
+import AnnounceHeader from "@/layouts/full/verticalHeader/announceHeader.vue"
 import Footer from "@/layouts/footer/footer.vue"
 </script>
 
@@ -19,10 +19,5 @@ import Footer from "@/layouts/footer/footer.vue"
 .full-layout {
   display: flex;
   flex-direction: column;
-  /* min-height: 100vh; */
-}
-
-.content-area {
-  /* flex: 1 0 auto; */
 }
 </style>

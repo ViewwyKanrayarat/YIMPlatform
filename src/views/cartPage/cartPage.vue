@@ -1,11 +1,13 @@
 <template>
+  <verticalHeaderVue />
   <ContentLayout>
-    <div class="card-content">cccart page</div>
-  </ContentLayout>
+    <div class="card-content">cart page</div>
+  </ContentLayout >
 </template>
 
 <script setup lang="ts">
 import ContentLayout from "@/layouts/content/ContentLayout.vue";
+import verticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue";
 </script>
 
 <style scoped>

@@ -30,7 +30,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
         component: CheckoutPage,
       },
       {
-        path: "productsDetail",
+        path: "detail/:sku",
         name: "ProductsPage",
         component: ProductsPage,
         // ถ้าต้องการแบบมีไอดี: path: "products/:id"

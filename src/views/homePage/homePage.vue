@@ -62,7 +62,7 @@
       <!-- products -->
       <div class="product-content">
         <div class="layout-product">
-          <div class="product-card" v-for="(product, index) in products.Products.product_items" :key="index">
+          <div class="product-card" v-for="(product, index) in products.Products" :key="index">
             <Products :items="product" />
           </div>
         </div>
@@ -97,7 +97,6 @@ function changeSearch() {
 
 async function init() {
   await products.getProducts()
-  console.log("log pro", products.Products.product_items)
 }
 
 init()

@@ -125,6 +125,7 @@ init()
   margin-bottom: 25px;
   background-color: red;
 }
+
 .filter-content {
   width: 20%;
   display: flex;
@@ -144,6 +145,7 @@ init()
   justify-content: center;
   align-items: center;
 }
+
 .layout-product {
   width: 90%;
   background-color: lightblue;
@@ -161,9 +163,16 @@ init()
   .filter-content {
     width: 100%;
   }
+
   .product-content {
     width: 100%;
     padding-top: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .layout-product {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
 </style>

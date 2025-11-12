@@ -10,151 +10,95 @@
       <div class="layout-cart">
         <!-- left -->
         <div class="layout-product-cart">
-          <!-- top -->
+          <!-- product in cart -->
           <div class="product-card">
-            <v-row>
-              <v-col cols="2">
-                <div>ช่องที่ 1</div>
-              </v-col>
+            <div
+              v-for="item, index in cart.Cart"
+              :key="index"
+            >
+              <v-row>
+                <v-col cols="2">
+                  <v-img
+                    :src="item.image_url[0]"
+                    class="img-top"
+                  />
+                </v-col>
 
-              <v-col cols="6">
-                <div>SKU 1</div>
-                <div>xxx</div>
-                <div>price</div>
-                <v-btn>remove</v-btn>
-              </v-col>
+                <v-col cols="6">
+                  <div class="text-number">SKU {{ item.sku }}</div>
+                  <div>{{ item.name }}</div>
+                  <div>฿{{ item.price }} / EA</div>
+                  <v-btn
+                    prepend-icon="mdi-trash-can-outline"
+                    variant="text"
+                    color="red"
+                    @click="removeProduct(item)"
+                  >remove</v-btn>
+                </v-col>
 
-              <v-col cols="4">
-                <v-number-input
-                  v-model="amountProduct"
-                  :max="999"
-                  :min="1"
-                  :reverse="false"
-                  controlVariant="split"
-                  label=""
-                  :hideInput="false"
-                  :inset="false"
-                  base-color="primary"
-                ></v-number-input>
-                <div class="text-price">฿{{ amountProduct.toFixed(2) }}</div>
-              </v-col>
-            </v-row>
-            <hr class="mt-5">
-            </hr>
-            <!-- <v-row>
-              <v-col cols="2">
-                <div>ช่องที่ 1</div>
-              </v-col>
-
-              <v-col cols="6">
-                <div>SKU 1</div>
-                <div>xxx</div>
-                <div>price</div>
-                <v-btn>remove</v-btn>
-              </v-col>
-
-              <v-col cols="4">
-                <v-number-input v-model="amountProduct" :max="999" :min="1" :reverse="false" controlVariant="split"
-                  label="" :hideInput="false" :inset="false" base-color="primary"></v-number-input>
-              </v-col>
-            </v-row>
-            <hr class="mt-5">
-            </hr>
-            <v-row>
-              <v-col cols="2">
-                <div>ช่องที่ 1</div>
-              </v-col>
-
-              <v-col cols="6">
-                <div>SKU 1</div>
-                <div>xxx</div>
-                <div>price</div>
-                <v-btn>remove</v-btn>
-              </v-col>
-
-              <v-col cols="4">
-                <v-number-input v-model="amountProduct" :max="999" :min="1" :reverse="false" controlVariant="split"
-                  label="" :hideInput="false" :inset="false" base-color="primary"></v-number-input>
-              </v-col>
-            </v-row>
-            <hr class="mt-5">
-            </hr>
-            <v-row>
-              <v-col cols="2">
-                <div>ช่องที่ 1</div>
-              </v-col>
-
-              <v-col cols="6">
-                <div>SKU 1</div>
-                <div>xxx</div>
-                <div>price</div>
-                <v-btn>remove</v-btn>
-              </v-col>
-
-              <v-col cols="4">
-                <v-number-input v-model="amountProduct" :max="999" :min="1" :reverse="false" controlVariant="split"
-                  label="" :hideInput="false" :inset="false" base-color="primary"></v-number-input>
-              </v-col>
-            </v-row>
-            <hr class="mt-5">
-            </hr>
-            <v-row>
-              <v-col cols="2">
-                <div>ช่องที่ 1</div>
-              </v-col>
-
-              <v-col cols="6">
-                <div>SKU 1</div>
-                <div>xxx</div>
-                <div>price</div>
-                <v-btn>remove</v-btn>
-              </v-col>
-
-              <v-col cols="4">
-                <v-number-input v-model="amountProduct" :max="999" :min="1" :reverse="false" controlVariant="split"
-                  label="" :hideInput="false" :inset="false" base-color="primary"></v-number-input>
-              </v-col>
-            </v-row>
-            <hr class="mt-5">
-            </hr> -->
+                <v-col cols="4">
+                  <v-number-input
+                    v-model="item.amount"
+                    :max="999"
+                    :min="1"
+                    :reverse="false"
+                    controlVariant="split"
+                    label=""
+                    :hideInput="false"
+                    :inset="false"
+                    base-color="primary"
+                  ></v-number-input>
+                  <div class="text-price">฿{{ (item.amount * item.price).toFixed(2) }}</div>
+                </v-col>
+              </v-row>
+              <hr class="my-5">
+              </hr>
+            </div>
+            <div
+              v-if="cart.TotalItems === 0"
+              class="mt-10 text-center"
+            >There are no items in this cart</div>
           </div>
-          <!-- bottom -->
+          <!-- product recommend -->
           <div class="layout-recommend pa-5">
             <div class="title-text-recommend">Recommend</div>
-           
-              <v-slide-group
-                show-arrows
-              >
-                <v-slide-group-item
-                  v-for="item in itemCart"
-                  :key="item.sku"
-                >
-                  <v-card
-                    class="ma-4"
-                    color="grey-lighten-1"
-                    height="190"
-                    width="150"
-                  >
-                    <v-img
-                      :src="item.image_url[0]"
-                      height="80"
-                      cover
-                    />
 
-                    <div class="pa-2">
-                      <div class="text-subtitle-2">SKU {{ item.sku }}</div>
-                      <div class="text-subtitle-2">{{ item.name }}</div>
-                      <div class="text-caption">฿{{ item.price.toFixed(2) }} / EA</div>
-                      <v-btn size="small" color="orange" prepend-icon="mdi-plus"> Add to cart </v-btn>
-                    </div>
-                  </v-card>
-                </v-slide-group-item>
-              </v-slide-group>
+            <v-slide-group show-arrows>
+              <v-slide-group-item
+                v-for="item in products.RecommendedProducts"
+                :key="item.sku"
+              >
+                <v-card
+                  class="ma-4"
+                  color="grey-lighten-1"
+                  height="220"
+                  width="160"
+                >
+                  <v-img
+                    :src="item.image_url[0]"
+                    height="100"
+                    cover
+                  />
+
+                  <div class="pa-2">
+                    <div class="text-subtitle">SKU {{ item.sku }}</div>
+                    <div class="text-subtitle text-ellipsis">{{ item.name }}</div>
+                    <div class="text-caption">฿{{ item.price.toFixed(2) }} / EA</div>
+                    <v-btn
+                      size="small"
+                      color="orange"
+                      prepend-icon="mdi-plus"
+                      @click="cart.getProductsInCart(item)"
+                    > Add to cart </v-btn>
+                  </div>
+                </v-card>
+              </v-slide-group-item>
+            </v-slide-group>
 
           </div>
         </div>
         <!-- right -->
-        <div class="layout-summary pa-5">
+        <div class="layout-summary-cart pa-5">
           <div>
             <div class="title-text">Summary</div>
             <div>Promotion Code</div>
@@ -198,10 +142,16 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import Swal from "sweetalert2";
 import ContentLayout from "@/layouts/content/ContentLayout.vue";
 import verticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue";
 import Products from "@/components/card/products.vue";
 import { useRouter } from "vue-router";
+import type { CartModel } from "@/types/CartType";
+import { useCart } from "@/stores/cart";
+const cart = useCart();
+import { useProducts } from "@/stores/products";
+const products = useProducts();
 const router = useRouter();
 const itemCart = [
   {
@@ -279,17 +229,32 @@ const itemCart = [
 const amountProduct = ref(1);
 const model = ref(null);
 
-const goToHome = () => {
+function goToHome() {
   console.log("goToHome");
-
   router.push("/");
-};
+}
+
+function removeProduct(item: CartModel) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: `Remove ${item.name} from cart?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      cart.removeProduct(item.sku);
+    }
+  });
+}
 </script>
 
 <style scoped>
 .layout-content {
-  height: 100vh;
-  margin  : 25px;
+  height: 100%;
+  margin: 25px;
   background-color: pink;
 }
 
@@ -312,6 +277,11 @@ const goToHome = () => {
   font-weight: bold;
 }
 
+.text-number {
+  font-size: 14px;
+  color: gray;
+}
+
 .layout-cart {
   height: 80%;
   display: flex;
@@ -323,38 +293,52 @@ const goToHome = () => {
 }
 
 .layout-product-cart {
-  width: 63%;
+  width: 55%;
+  height: 90vh;  
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid black;
 }
 
 .product-card {
-  height: 55%;
+  flex: 1 1 auto;
+  min-height: 0; 
   overflow-y: auto;
   border: 1px solid #ddd;
   padding: 10px;
   box-sizing: border-box;
-  background-color: red;
+  background-color: yellow;
 }
 
-.layout-summary {
-  width: 35%;
+.layout-recommend {
+  flex: 0 0 320px;
+  border: 1px solid black;
+  background-color: blue;
+  overflow: hidden;
+}
+
+.layout-summary-cart {
+  width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid black;
 }
 
-.layout-recommend {
-  height: 40%;
-  border: 1px solid black;
-  background-color: yellow;
-}
-
 .recommend-card {
   display: flex;
+}
+
+.img-top {
+  width: auto;
+  height: auto;
+  max-width: 200px;
+}
+
+.text-ellipsis {
+  white-space: nowrap;        /* ไม่ตัดบรรทัด */
+  overflow: hidden;           /* ซ่อนเนื้อหาที่เกิน */
+  text-overflow: ellipsis;    /* แสดง ... */
 }
 
 @media (max-width: 900px) {

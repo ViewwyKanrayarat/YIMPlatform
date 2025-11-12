@@ -289,7 +289,7 @@ const goToHome = () => {
 <style scoped>
 .layout-content {
   height: 100vh;
-  padding: 25px;
+  margin  : 25px;
   background-color: pink;
 }
 

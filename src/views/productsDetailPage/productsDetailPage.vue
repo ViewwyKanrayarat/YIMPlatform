@@ -12,7 +12,7 @@
           <div class="price-detail">฿{{ items.price.toFixed(2) }} / EA</div>
           <div class="d-flex justify-space-between">
             <div>Product Detail</div>
-            <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus"> Add to cart </v-btn>
+            <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
           </div>
           <div>SKU: {{ items.sku }}</div>
           <div>Brand: {{ items.brand }}</div>
@@ -35,6 +35,9 @@ import { ref } from "vue"
 import ContentLayout from "@/layouts/content/ContentLayout.vue"
 import verticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue"
 import { useRoute, useRouter } from "vue-router"
+import type { CartModel } from "@/types/CartType"
+import { useCart } from "@/stores/cart"
+const cart = useCart()
 import { useProducts } from "@/stores/products"
 const products = useProducts()
 
@@ -43,18 +46,22 @@ const route = useRoute()
 const sku = route.params.sku
 
 // state form
-const items = ref({
+const items = ref<CartModel>({
   sku: 0,
   brand: "",
   name: "",
   pack_size: "",
   image_url: [],
   price: 0,
+  amount: 0,
 })
 
-const goToHome = () => {
-  console.log("goToHome")
+function addProductToCart() {
+  console.log("DETAIL PAGE", items.value)
+  cart.getProductsInCart(items.value)
+}
 
+function goToHome() {
   router.push("/")
 }
 

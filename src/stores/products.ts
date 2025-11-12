@@ -36,8 +36,6 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
           }
 
           if (filter.min !== null) {
-            console.log("filter.min", filter.min)
-
             items = items.filter((p) => p.price >= filter.min!)
           }
 

@@ -9,10 +9,10 @@
       <div v-if="props.cartProduct">
         <v-btn height="50" rounded="xl" class="button-cart px-4 py-2" elevation="2" @click="goToCart">
           <div class="d-flex align-center">
-            <v-badge :content="cartCount" color="red" floating>
+            <v-badge :content="cart.TotalItems" color="red" floating>
               <v-icon color="black" size="20">mdi-cart</v-icon>
             </v-badge>
-            <span class="ms-2 text-black font-weight-bold"> ฿0.00 </span>
+            <span class="ms-2 text-black font-weight-bold"> ฿{{ cart.TotalPrice.toFixed(2)  }} </span>
           </div>
         </v-btn>
       </div>
@@ -23,6 +23,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { useRouter } from "vue-router"
+import { useCart } from "@/stores/cart"
+const cart = useCart()
 const router = useRouter()
 
 const cartCount = ref(10)

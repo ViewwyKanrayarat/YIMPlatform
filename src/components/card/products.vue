@@ -12,14 +12,15 @@
     <!-- ราคา -->
     <div>฿{{ props.items.price.toFixed(2) }} / EA</div>
 
-    <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
+    <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click.stop="addProductToCart"> Add to cart </v-btn>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
 import { useRouter } from "vue-router"
-import func from "vue-temp/vue-editor-bridge"
+import { useCart } from "@/stores/cart"
+const cart = useCart()
 const router = useRouter()
 
 type propsModel = {
@@ -50,7 +51,8 @@ function goToDetail() {
 }
 
 function addProductToCart() {
-  console.log("addProductToCart")
+  console.log("addProductToCart",props.items)
+  cart.getProductsInCart(props.items)
 }
 </script>
 

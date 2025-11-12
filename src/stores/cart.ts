@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import type { ProductModel } from "../types/ProductsType"
-import type { State, Getters, Actions,CartModel } from "../types/CartType"
+import type { State, Getters, Actions, CartModel } from "../types/CartType"
 
 export const useCart = defineStore<"cart", State, Getters, Actions>("cart", {
   state: (): State => ({
@@ -12,6 +12,9 @@ export const useCart = defineStore<"cart", State, Getters, Actions>("cart", {
     },
     TotalItems(state): number {
       return state.cart.reduce((sum, item) => sum + item.amount, 0)
+    },
+    TotalPrice(state): number {
+      return state.cart.reduce((sum, item) => sum + item.price * item.amount, 0)
     },
   },
   actions: {
@@ -29,8 +32,8 @@ export const useCart = defineStore<"cart", State, Getters, Actions>("cart", {
           amount: 1,
         })
       }
-      console.log('add success',this.cart);
-      
+      console.log("add success", this.cart)
+      console.log("test", this.TotalItems)
     },
   },
 })

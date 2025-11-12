@@ -6,6 +6,8 @@ export interface State {
 
 export interface Getters extends _GettersTree<State> {
   Cart(state: State): CartModel[]
+  TotalItems(state: State): void
+  TotalPrice(state: State): void
 }
 
 export interface Actions {

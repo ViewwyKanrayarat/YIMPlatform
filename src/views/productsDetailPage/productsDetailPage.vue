@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue"
+import Swal from 'sweetalert2'
 import ContentLayout from "@/layouts/content/ContentLayout.vue"
 import verticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue"
 import { useRoute, useRouter } from "vue-router"
@@ -93,6 +94,13 @@ watch(
 function addProductToCart() {
   console.log("DETAIL PAGE", items.value)
   cart.getProductsInCart(items.value)
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Add to cart success',
+    showConfirmButton: false,
+    timer: 1500
+  })
 }
 
 function goToHome() {

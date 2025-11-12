@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import { useCart } from "@/stores/cart"
 import type { State, Getters, Actions, productsFilterModel, ProductModel } from "../types/ProductsType"
 
 export const useProducts = defineStore<"products", State, Getters, Actions>("products", {
@@ -19,6 +20,11 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
     },
     ProductById(state: State) {
       return state.productById
+    },
+    RecommendedProducts(state) {
+      const cart = useCart()
+      const cartSkus = new Set(cart.Cart.map(i => i.sku))
+      return state.products.filter(p => !cartSkus.has(p.sku))
     },
   },
   actions: {

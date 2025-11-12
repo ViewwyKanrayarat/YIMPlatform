@@ -12,6 +12,7 @@
             variant="outlined"
             hide-details
             base-color="primary"
+            prepend-inner-icon="mdi-magnify"
             @keyup.enter="changeSearch()"
           >
           </v-text-field>
@@ -33,23 +34,26 @@
                 <div class="w-full flex">
                   <div class="w-1/2">
                     <v-text-field
-                      v-model.number="minPrice"
+                      v-model="minPrice"
                       type="number"
                       label="Min"
+                      min="0"
                       density="compact"
                       variant="outlined"
                       hide-details
+                      @keydown="onlyNumber"
                     />
                   </div>
                   <div>&nbsp;&nbsp;-&nbsp;&nbsp;</div>
                   <div class="w-1/2">
                     <v-text-field
-                      v-model.number="maxPrice"
+                      v-model="maxPrice"
                       type="number"
                       label="Max"
                       density="compact"
                       variant="outlined"
                       hide-details
+                      @keydown="onlyNumber"
                     />
                   </div>
                 </div>
@@ -76,6 +80,7 @@ import { ref } from "vue"
 import ContentLayout from "@/layouts/content/ContentLayout.vue"
 import VerticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue"
 import Products from "@/components/card/products.vue"
+import type { productsFilterModel } from "../types/ProductsType"
 import { useProducts } from "@/stores/products"
 const products = useProducts()
 
@@ -86,14 +91,23 @@ let search = ref<string>("")
 const minPrice = ref<number | null>(null)
 const maxPrice = ref<number | null>(null)
 
-function changeSearch() {
-  console.log(search.value,minPrice.value,maxPrice.value)
-  console.log("กรองช่วงราคา", {
-    min: minPrice.value,
-    max: maxPrice.value,
-  })
+// filter by name products, price
+async function changeSearch() {
+  let filter: productsFilterModel = {
+    keyword: search.value,
+    min: minPrice.value != null ? Number(minPrice.value) : null,
+    max: maxPrice.value != null ? Number(maxPrice.value) : null,
+  }
+  console.log("HOME", filter)
+  await products.getProducts(filter)
 }
 
+// only number
+const onlyNumber = (e: KeyboardEvent) => {
+  if (!/[0-9]/.test(e.key) && !["Backspace", "Tab", "Delete", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault()
+  }
+}
 
 async function init() {
   await products.getProducts()
@@ -149,6 +163,7 @@ init()
   }
   .product-content {
     width: 100%;
+    padding-top: 50px;
   }
 }
 </style>

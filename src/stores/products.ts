@@ -1,29 +1,59 @@
 import { defineStore } from "pinia"
+import type { State, Getters, Actions, productsFilterModel } from "../types/ProductsType"
 
-export const useProducts = defineStore("products", {
-  state: () => ({
-    products: [] as unknown[],
-    productById: null as any,
+export const useProducts = defineStore<"products", State, Getters, Actions>("products", {
+  state: (): State => ({
+    products: [],
+    productById: {
+      sku: 0,
+      brand: "",
+      name: "",
+      pack_size: "",
+      image_url: [],
+      price: 0,
+    },
   }),
   getters: {
-    Products(state): unknown[] {
+    Products(state: State) {
       return state.products
     },
-    ProductById(state): unknown[] {
+    ProductById(state: State) {
       return state.productById
     },
   },
   actions: {
-    async getProducts() {
+    async getProducts(filter?: productsFilterModel) {
       try {
-        const res = await fetch("../../public/data/AppendixB.json")
+        console.log("api", filter)
+
+        const res = await fetch("/data/AppendixB.json")
         const data = await res.json()
-        this.products = data.product_items
-      } catch (e: any) {
-        console.log(e)
+        let items = data.product_items as Product[]
+
+        // ถ้ามี filter
+        if (filter) {
+          if (filter.keyword) {
+            const text = filter.keyword.toLowerCase()
+            items = items.filter((p) => p.name.toLowerCase().includes(text) || p.brand.toLowerCase().includes(text))
+          }
+
+          if (filter.min !== null) {
+            console.log('filter.min',filter.min);
+            
+            items = items.filter((p) => p.price >= filter.min!)
+          }
+
+          if (filter.max !== null) {
+            items = items.filter((p) => p.price <= filter.max!)
+          }
+        }
+        // ใส่ค่าใน state
+        this.products = items
+      } catch (e) {
+        console.error(e)
       }
     },
-    async getProductById(sku) {
+    async getProductById(sku: number) {
       try {
         const item = this.products.find((p: any) => {
           if (p.sku == sku) {

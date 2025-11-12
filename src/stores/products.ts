@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { State, Getters, Actions, productsFilterModel } from "../types/ProductsType"
+import type { State, Getters, Actions, productsFilterModel, ProductModel } from "../types/ProductsType"
 
 export const useProducts = defineStore<"products", State, Getters, Actions>("products", {
   state: (): State => ({
@@ -24,11 +24,9 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
   actions: {
     async getProducts(filter?: productsFilterModel) {
       try {
-        console.log("api", filter)
-
         const res = await fetch("/data/AppendixB.json")
         const data = await res.json()
-        let items = data.product_items as Product[]
+        let items = data.product_items as ProductModel[]
 
         // ถ้ามี filter
         if (filter) {
@@ -38,8 +36,8 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
           }
 
           if (filter.min !== null) {
-            console.log('filter.min',filter.min);
-            
+            console.log("filter.min", filter.min)
+
             items = items.filter((p) => p.price >= filter.min!)
           }
 
@@ -55,12 +53,14 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
     },
     async getProductById(sku: number) {
       try {
-        const item = this.products.find((p: any) => {
+        const item = this.products.find((p: ProductModel) => {
           if (p.sku == sku) {
             return p
           }
         })
-        this.productById = item
+        if (item) {
+          this.productById = item
+        }
       } catch (e: any) {
         console.log(e)
       }

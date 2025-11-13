@@ -8,7 +8,7 @@
       >Back</v-btn>
       <div class="text-title">Cart</div>
       <div class="layout-cart">
-        <!-- left -->
+        <!-- CART -->
         <div class="layout-product-cart">
           <!-- product in cart -->
           <div class="product-card">
@@ -26,9 +26,10 @@
 
                 <v-col cols="6">
                   <div class="text-number">SKU {{ item.sku }}</div>
-                  <div >{{ item.name }}</div>
+                  <div>{{ item.name }}</div>
                   <div class="pt-5">฿{{ item.price }} / EA</div>
-                  <v-btn class="mt-3"
+                  <v-btn
+                    class="mt-3"
                     prepend-icon="mdi-trash-can-outline"
                     variant="text"
                     color="red"
@@ -62,7 +63,7 @@
           </div>
           <!-- product recommend -->
           <div class="layout-recommend pa-5">
-            <div class="title-text-recommend">Recommenddddddddddd</div>
+            <div class="title-text-recommend">Recommend</div>
             <v-slide-group show-arrows>
               <v-slide-group-item
                 v-for="item in products.RecommendedProducts"
@@ -97,13 +98,18 @@
 
           </div>
         </div>
-        <!-- right -->
-        <div class="layout-summary-cart pa-5">
+        <!-- SUMMARY -->
+        <div
+          v-if="cart.TotalPrice>0"
+          class="layout-summary-cart pa-5"
+        >
+          <!-- promotion -->
           <div>
             <div class="text-sub-title">Summary</div>
             <div class="text-primary pt-5">Promotion Code</div>
             <div class="d-flex pt-2">
               <v-text-field
+                v-model="code"
                 label="Promotion Code"
                 variant="outlined"
                 density="compact"
@@ -112,26 +118,32 @@
               <v-btn
                 color="orange"
                 class="mt-2"
+                @click="cart.calPromotionDiscount(code)"
+                :disabled="code === ''"
               >Apply</v-btn>
             </div>
           </div>
-
+          <!-- cal price -->
           <div>
             <div class="d-flex justify-space-between text-discount">
               <div>Subtotal</div>
               <div>฿{{ cart.TotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
-            <div class="d-flex justify-space-between text-discount">
+            <div
+              class="d-flex justify-space-between text-discount"
+              :style="{ color: cart.PromotionDiscount > 0 ? 'orange' : '' }"
+            >
               <div>Discount</div>
-              <div >฿100</div>
+              <div v-if="cart.PromotionDiscount>0">-฿{{ cart.PromotionDiscount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
+              <div v-else>฿{{ cart.PromotionDiscount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
             <div class="d-flex justify-space-between text-discount">
               <div>Delivery Fee</div>
-              <div>฿{{ cart.DeliveryFeeRaw }}</div>
+              <div>฿{{ cart.DeliveryFee.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
             <div class="d-flex justify-space-between title-total">
               <div>Total</div>
-              <div>฿{{ cart.TotalPayable }}</div>
+              <div>฿{{ cart.TotalPayable.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
             <v-btn
               block
@@ -157,21 +169,20 @@ const cart = useCart();
 import { useProducts } from "@/stores/products";
 const products = useProducts();
 const router = useRouter();
-
-// update amount not null
-function updateAmount(item:CartModel, val: number | null | '') {
-  console.log('val',val);
-  
-  if (val === null || val === "" || val < 1) {
-    item.amount = 1
-  } else {
-    item.amount = val
-  }
-}
-
-
+const code = ref("");
 const amountProduct = ref(1);
 const model = ref(null);
+
+// update amount not null
+function updateAmount(item: CartModel, val: number | null | "") {
+  console.log("val", val);
+
+  if (val === null || val === "" || val < 1) {
+    item.amount = 1;
+  } else {
+    item.amount = val;
+  }
+}
 
 function goToHome() {
   console.log("goToHome");
@@ -194,10 +205,9 @@ function removeProduct(item: CartModel) {
   });
 }
 
-// cart.loadConfig();
-products.getProducts()
+cart.loadConfig();
+products.getProducts();
 console.log(products.RecommendedProducts);
-
 </script>
 
 <style scoped>
@@ -207,21 +217,21 @@ console.log(products.RecommendedProducts);
   background-color: pink;
 }
 
-.text-title { 
+.text-title {
   font-size: 40px;
   font-weight: bold;
   margin-top: 30px;
 }
- 
-.text-sub-title { 
+
+.text-sub-title {
   font-size: 40px;
 }
 
-.title-total { 
+.title-total {
   font-size: 35px;
   font-weight: bold;
 }
- 
+
 .text-primary {
   font-size: 20px;
 }
@@ -256,7 +266,7 @@ console.log(products.RecommendedProducts);
 
 .layout-product-cart {
   width: 55%;
-  height: 90vh;  
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -264,7 +274,7 @@ console.log(products.RecommendedProducts);
 
 .product-card {
   flex: 1 1 auto;
-  min-height: 0; 
+  min-height: 0;
   overflow-y: auto;
   border: 1px solid #ddd;
   padding: 10px;
@@ -298,9 +308,9 @@ console.log(products.RecommendedProducts);
 }
 
 .text-ellipsis {
-  white-space: nowrap;        /* ไม่ตัดบรรทัด */
-  overflow: hidden;           /* ซ่อนเนื้อหาที่เกิน */
-  text-overflow: ellipsis;    /* แสดง ... */
+  white-space: nowrap; /* ไม่ตัดบรรทัด */
+  overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+  text-overflow: ellipsis; /* แสดง ... */
 }
 
 @media (max-width: 900px) {

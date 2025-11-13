@@ -12,7 +12,7 @@
     <!-- ราคา -->
     <div>฿{{ props.items.price.toFixed(2) }} / EA</div>
 
-    <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click.stop="addProductToCart"> Add to cart </v-btn>
+    <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click.stop="cart.getProductsInCart(props.items)"> Add to cart </v-btn>
   </v-card>
 </template>
 
@@ -50,10 +50,10 @@ function goToDetail() {
   router.push(`home/detail/${props.items.sku}`)
 }
 
-function addProductToCart() {
-  console.log("addProductToCart",props.items)
-  cart.getProductsInCart(props.items)
-}
+// function addProductToCart() {
+//   console.log("addProductToCart",props.items)
+//   cart.getProductsInCart(props.items)
+// }
 </script>
 
 <style scoped>

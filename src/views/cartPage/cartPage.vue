@@ -169,6 +169,7 @@ import ContentLayout from "@/layouts/content/ContentLayout.vue";
 import verticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue";
 import Products from "@/components/card/products.vue";
 import { useRouter } from "vue-router";
+import { nanoid } from "nanoid";
 import type { CartModel } from "@/types/CartType";
 import { useCart } from "@/stores/cart";
 const cart = useCart();
@@ -222,6 +223,15 @@ function addProductToCart(item: CartModel) {
   });
 }
 
+function generateOrderId() {
+  const now = new Date()
+  const y = now.getFullYear()
+  const m = String(now.getMonth() + 1).padStart(2, "0")
+  const d = String(now.getDate()).padStart(2, "0")
+  const timestamp = now.getTime().toString().slice(-6) // 6 หลักท้ายของ time
+  return `${y}${m}${d}${timestamp}`
+}
+
 function comfirmPayment() {
   Swal.fire({
     title: "Confirm Your Order",
@@ -233,7 +243,12 @@ function comfirmPayment() {
     confirmButtonText: "Pay Now",
   }).then((result) => {
     if (result.isConfirmed) {
-      router.push("/home/checkout");
+      const paymentId = generateOrderId();
+      console.log("Payment ID:", paymentId);
+      router.push({
+        path: "/home/checkout",
+        query: { paymentId },
+      });
     }
   });
 }

@@ -5,10 +5,10 @@
       <div class="order-content">
         <div class="text-title">Checkout</div>
         <div class="product-card">
-          <div class="text-sub-title">Order ID xxx</div>
+          <div class="text-sub-title">Order ID {{ paymentId  }}</div>
           <!-- order cart -->
           <v-container fluid>
-            <v-row v-for="(item, i) in itemCart" :key="i" class="py-3">
+            <v-row v-for="(item, i) in cart.Cart" :key="i" class="py-3">
               <v-col cols="4" md="4" lg="2">
                 <v-img :src="item.image_url[0]" width="100" height="100" cover class="rounded" />
               </v-col>
@@ -16,11 +16,12 @@
               <v-col cols="4" md="4" lg="6">
                 <div>{{ item.brand }}</div>
                 <div>{{ item.name }}</div>
-                <div>฿{{ item.price }}</div>
+                <div>฿{{ item.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
               </v-col>
 
               <v-col cols="4" md="4" lg="4" class="text-end">
-                <div>x1</div>
+                <div>x{{ item.amount.toLocaleString() }}</div>
+                <div>฿{{ (item.price * item.amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
               </v-col>
             </v-row>
           </v-container>
@@ -32,28 +33,28 @@
           <div class="text-sub-title space-top">Payment Information</div>
           <div class="d-flex justify-space-between">
             <div class="text-section">Subtotal</div>
-            <div class="text-sub-title">฿100000.00</div>
+            <div class="text-sub-title">฿{{ cart.TotalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
           </div>
           <div class="d-flex justify-space-between">
             <div class="text-section">Discount</div>
-            <div class="text-sub-title">฿100000.00</div>
+            <div class="text-sub-title">฿{{ cart.PromotionDiscount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
           </div>
           <div class="d-flex justify-space-between">
             <div class="text-section">Delivery Fee</div>
-            <div class="text-sub-title">฿100000.00</div>
+            <div class="text-sub-title">฿{{ cart.DeliveryFee.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
           </div>
-          <div class="d-flex justify-space-between mt-10">
+          <div class="d-flex justify-space-between my-10">
             <div class="text-sum">Total</div>
-            <div class="text-sum">฿1000000</div>
+            <div class="text-sub-title">฿{{ cart.TotalPayable.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
           </div>
         </div>
 
         <!-- qr code  -->
         <!-- order_id -->
         <!-- total_amount -->
-        <div class="d-flex justify-center">
+        <div class="d-flex justify-center mb-10">
           <img
-            :src="`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payment-api.yimplatform.com/orders/${orderId}/checkout?price=${totalAmount}`"
+            :src="`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payment-api.yimplatform.com/orders/${paymentId}/checkout?price=${cart.TotalPayable}`"
           />
         </div>
 
@@ -70,75 +71,17 @@
 import { ref } from "vue"
 import ContentLayout from "@/layouts/content/ContentLayout.vue"
 import verticalHeaderVue from "@/layouts/full/verticalHeader/verticalHeader.vue"
-import { useRouter } from "vue-router"
-
+import { useRoute, useRouter } from "vue-router"
+import { useCart } from "@/stores/cart"
+const cart = useCart()
+import { useProducts } from "@/stores/products"
+const products = useProducts()
 const router = useRouter()
-const amountProduct = ref(1)
-const orderId = "xxxxxx"
-const totalAmount = 500000
-
-const itemCart = [
-  {
-    sku: 1,
-    brand: "CA",
-    name: "T-Bone Slice 300g.",
-    pack_size: "1",
-    image_url: ["https://images.unsplash.com/photo-1551028150-64b9f398f678?auto=format&fit=crop&w=200&h=200&q=80"],
-    price: 250.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: ["https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: ["https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: ["https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"],
-    price: 149.0,
-  },
-  // {
-  //   sku: 2,
-  //   brand: "CA",
-  //   name: "Eggs No.1 Pack 30",
-  //   pack_size: "1",
-  //   image_url: ["https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"],
-  //   price: 149.0,
-  // },
-  // {
-  //   sku: 2,
-  //   brand: "CA",
-  //   name: "Eggs No.1 Pack 30",
-  //   pack_size: "1",
-  //   image_url: ["https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"],
-  //   price: 149.0,
-  // },
-  // {
-  //   sku: 2,
-  //   brand: "CA",
-  //   name: "Eggs No.1 Pack 30",
-  //   pack_size: "1",
-  //   image_url: ["https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"],
-  //   price: 149.0,
-  // },
-]
+const route = useRoute()
+const paymentId = route.query.paymentId
 
 const goToHome = () => {
-  console.log("goToHome")
-
+  cart.resetCart()
   router.push("/")
 }
 </script>

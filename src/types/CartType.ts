@@ -9,8 +9,13 @@ export interface State {
 
 export interface Getters extends _GettersTree<State> {
   Cart(state: State): CartModel[]
-  TotalItems(state: State): void
-  TotalPrice(state: State): void
+  TotalItems(state: State): number
+  TotalPrice(state: State): number
+  DeliveryFee(state: State): number
+  PromotionDiscount(state: State): number
+  PromotionCode(state: State): string
+  minimumCartAmount(state: State): number
+  TotalPayable(state: State): number
 }
 
 export interface Actions {
@@ -18,6 +23,7 @@ export interface Actions {
   getProductsInCart(product: CartModel): void
   removeProduct(sku: number): void
   calPromotionDiscount(code:string): void
+  resetCart(): void
 }
 
 export type CartModel = ProductModel & {

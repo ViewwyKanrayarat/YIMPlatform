@@ -5,6 +5,7 @@
       <!-- filter -->
       <div class="filter-content">
         <div class="layout-filter">
+          <div class="title-text">Filter</div>
           <v-text-field
             v-model="search"
             placeholder="Keyword"
@@ -65,9 +66,12 @@
       </div>
       <!-- products -->
       <div class="product-content">
-        <div class="layout-product">
-          <div class="product-card" v-for="(product, index) in products.Products" :key="index">
-            <Products :items="product" />
+        <div class="title-text-product title-text">Product</div>
+        <div class="layout-content">
+          <div class="layout-product">
+            <div class="product-card" v-for="(product, index) in products.Products" :key="index">
+              <Products :items="product" />
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +102,6 @@ async function changeSearch() {
     min: minPrice.value != null ? Number(minPrice.value) : null,
     max: maxPrice.value != null ? Number(maxPrice.value) : null,
   }
-  console.log("HOME", filter)
   await products.getProducts(filter)
 }
 
@@ -117,62 +120,6 @@ init()
 </script>
 
 <style scoped>
-.card-content {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  margin-top: 25px;
-  margin-bottom: 25px;
-  background-color: red;
-}
+@import "@/css/pages/home.css";
 
-.filter-content {
-  width: 20%;
-  display: flex;
-  justify-content: center;
-  background-color: blue;
-}
-
-.layout-filter {
-  width: 90%;
-  background-color: red;
-}
-
-.product-content {
-  width: 80%;
-  background-color: green;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.layout-product {
-  width: 90%;
-  background-color: lightblue;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  align-items: stretch;
-}
-
-.product-card {
-  display: flex;
-}
-
-@media (max-width: 900px) {
-  .filter-content {
-    width: 100%;
-  }
-
-  .product-content {
-    width: 100%;
-    padding-top: 50px;
-  }
-}
-
-@media (max-width: 600px) {
-  .layout-product {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-}
 </style>

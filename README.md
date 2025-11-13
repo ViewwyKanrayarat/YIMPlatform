@@ -1,9 +1,45 @@
 # Vue 3 + TypeScript + Vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+โปรเจกต์นี้พัฒนาโดยใช้ **Vue 3 + TypeScript + Vite**  
+ไฟล์นี้อธิบายวิธีรันโปรเจกต์บนเครื่อง (local) สำหรับคนที่มาดูโค้ด / รีวิว / ทดสอบ
 
-## Recommended Setup
+---
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+## ✅ สิ่งที่ต้องมีก่อน (Prerequisites)
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+- **Node.js** แนะนำเวอร์ชัน 18 ขึ้นไป  
+  เช็กเวอร์ชัน:
+  ```bash
+  node -v
+
+    npm (มากับ Node อยู่แล้ว)
+    เช็กเวอร์ชัน:
+
+    npm -v
+
+📥 การติดตั้งโปรเจกต์ (Clone & Install)
+
+    Clone โปรเจกต์จาก Git:
+
+git clone <your-repo-url>
+
+เข้าโฟลเดอร์โปรเจกต์:
+
+cd <project-folder>
+
+ติดตั้ง package:
+
+    npm install
+
+▶️ รันโปรเจกต์แบบ Development
+
+ใช้คำสั่ง:
+
+npm run dev
+
+จากนั้นเปิดเบราว์เซอร์ไปที่:
+
+http://localhost:8080/
+
+โปรเจคนี้ใช้ ui component : vuetify 
+สาเหตุที่เลือกใช้เพราะว่า เป็น component สำเร็จรูป นำมาใช้งาน และ custom เพิ่มเติมเองได้ง่าย

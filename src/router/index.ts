@@ -4,6 +4,7 @@ import HomePage from "@/views/homePage/homePage.vue"
 import CartPage from "@/views/cartPage/cartPage.vue"
 import CheckoutPage from "@/views/checkoutPage/checkoutPage.vue"
 import ProductsPage from "@/views/productsDetailPage/productsDetailPage.vue"
+import { useCart } from "@/stores/cart"
 
 const routes: Readonly<RouteRecordRaw[]> = [
   {
@@ -33,7 +34,6 @@ const routes: Readonly<RouteRecordRaw[]> = [
         path: "detail/:sku",
         name: "ProductsPage",
         component: ProductsPage,
-        // ถ้าต้องการแบบมีไอดี: path: "products/:id"
       },
     ],
   },
@@ -47,6 +47,18 @@ const routes: Readonly<RouteRecordRaw[]> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+
+router.beforeEach((to, from, next) => {
+  const cart = useCart()
+
+  // ไม่ให้เข้า Checkout ถ้าในตะกร้าไม่มีสินค้า
+  if (to.name === "CheckoutPage" && cart.TotalItems === 0) {
+    return next({ name: "Home" })
+  }
+
+  next()
 })
 
 export default router

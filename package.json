@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "nanoid": "^5.1.6",
     "pinia": "^3.0.4",
     "sweetalert2": "^11.26.3",
     "vue": "^3.5.13",

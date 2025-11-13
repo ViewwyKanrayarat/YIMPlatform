@@ -1,0 +1,33 @@
+.layout-card {
+  width: 100%;
+}
+
+.img-resize {
+  height: 250px;
+}
+.text-sku {
+  color: gray;
+  margin-top: 10px;
+}
+.text-name {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.button-add{
+  color: white;
+  background-color: #F14725;
+
+}
+@media (max-width: 850px) {
+  .img-resize {
+    height: 150px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .img-resize {
+    height: 250px;
+    width: 100%;
+  }
+}

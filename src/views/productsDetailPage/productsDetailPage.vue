@@ -31,7 +31,7 @@
           <div class="price-detail">฿{{ items.price.toFixed(2) }} / EA</div>
           <div class="d-flex justify-space-between">
             <div>Product Detail</div>
-            <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
+            <v-btn class="mt-2" color="#F14725" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
           </div>
           <div>SKU: {{ items.sku }}</div>
           <div>Brand: {{ items.brand }}</div>
@@ -92,7 +92,6 @@ watch(
 )
 
 function addProductToCart() {
-  console.log("DETAIL PAGE", items.value)
   cart.getProductsInCart(items.value)
   Swal.fire({
     position: 'center',
@@ -117,88 +116,6 @@ init()
 </script>
 
 <style scoped>
-.layout-content {
-  height: 100%;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  padding-right: 25px;
-  padding-left: 25px;
-  background-color: pink;
-}
+@import "@/css/pages/productsDetail.css";
 
-.detail-content {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
-.img-detail {
-  width: 40%;
-  background-color: red;
-}
-
-.layout-img {
-  display: flex;
-  justify-content: center;
-}
-
-.img-top {
-  width: auto;
-  height: auto;
-  max-width: 300px;
-}
-
-.img-bottom {
-  width: 100%;
-  background-color: yellow;
-  display: flex;
-  justify-content: center;
-  padding-top: 50px;
-  gap: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.img-bottom-detail {
-  width: auto;
-  height: auto;
-  max-width: 150px;
-  cursor: pointer;
-  outline: 1px solid transparent;
-  transition: outline-color 0.2s ease;
-}
-
-.img-bottom-detail.active {
-  outline-color: var(--v-theme-primary);
-}
-
-.product-detail {
-  width: 60%;
-  background-color: blue;
-}
-
-.title-detail {
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.price-detail {
-  font-size: 30px;
-}
-
-@media (max-width: 900px) {
-  .img-detail {
-    width: 100%;
-  }
-  .product-detail {
-    width: 100%;
-  }
-  .img-top {
-    width: 100%;
-    height: auto;
-    max-width: 400px;
-  }
-}
 </style>

@@ -75,5 +75,9 @@ export const useCart = defineStore<"cart", State, Getters, Actions>("cart", {
         this.promotionDiscount = 0
       }
     },
+    resetCart() {
+      this.cart = []
+      this.promotionDiscount = 0
+    },
   },
 })

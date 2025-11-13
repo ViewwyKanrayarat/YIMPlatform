@@ -8,7 +8,7 @@
       >Back</v-btn>
       <div class="text-title">Cart</div>
       <div class="layout-cart">
-        <!-- left -->
+        <!-- CART -->
         <div class="layout-product-cart">
           <!-- product in cart -->
           <div class="product-card">
@@ -26,9 +26,10 @@
 
                 <v-col cols="6">
                   <div class="text-number">SKU {{ item.sku }}</div>
-                  <div >{{ item.name }}</div>
+                  <div>{{ item.name }}</div>
                   <div class="pt-5">฿{{ item.price }} / EA</div>
-                  <v-btn class="mt-3"
+                  <v-btn
+                    class="mt-3"
                     prepend-icon="mdi-trash-can-outline"
                     variant="text"
                     color="red"
@@ -47,6 +48,7 @@
                     :hideInput="false"
                     :inset="false"
                     base-color="primary"
+                    @update:model-value="val => updateAmount(item, val)"
                   ></v-number-input>
                   <div class="text-price">฿{{ (item.amount * item.price).toFixed(2) }}</div>
                 </v-col>
@@ -61,7 +63,7 @@
           </div>
           <!-- product recommend -->
           <div class="layout-recommend pa-5">
-            <div class="title-text-recommend">Recommenddddddddddd</div>
+            <div class="title-text-recommend">Recommend</div>
             <v-slide-group show-arrows>
               <v-slide-group-item
                 v-for="item in products.RecommendedProducts"
@@ -87,7 +89,7 @@
                       size="small"
                       color="orange"
                       prepend-icon="mdi-plus"
-                      @click="cart.getProductsInCart(item)"
+                      @click="addProductToCart(item)"
                     > Add to cart </v-btn>
                   </div>
                 </v-card>
@@ -96,45 +98,62 @@
 
           </div>
         </div>
-        <!-- right -->
-        <div class="layout-summary-cart pa-5">
+        <!-- SUMMARY -->
+        <div
+          v-if="cart.TotalPrice>0"
+          class="layout-summary-cart pa-5"
+        >
+          <!-- promotion -->
           <div>
             <div class="text-sub-title">Summary</div>
             <div class="text-primary pt-5">Promotion Code</div>
-            <div class="d-flex pt-2">
+            <div
+              class="d-flex pt-2"
+              style="background-color: red;"
+            >
               <v-text-field
+                v-model="code"
                 label="Promotion Code"
                 variant="outlined"
                 density="compact"
                 hide-details
+                height="50"
+                class="mr-2"
               ></v-text-field>
               <v-btn
                 color="orange"
-                class="mt-2"
+                height="50"
+                @click="cart.calPromotionDiscount(code)"
+                :disabled="code === ''"
               >Apply</v-btn>
             </div>
           </div>
-
+          <!-- cal price -->
           <div>
             <div class="d-flex justify-space-between text-discount">
               <div>Subtotal</div>
-              <div >฿{{ cart.TotalPrice }}</div>
+              <div>฿{{ cart.TotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
-            <!-- <div class="d-flex justify-space-between text-discount">
+            <div
+              class="d-flex justify-space-between text-discount"
+              :style="{ color: cart.PromotionDiscount > 0 ? 'orange' : '' }"
+            >
               <div>Discount</div>
-              <div >฿100</div>
-            </div> -->
+              <div v-if="cart.PromotionDiscount>0">-฿{{ cart.PromotionDiscount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
+              <div v-else>฿{{ cart.PromotionDiscount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
+            </div>
             <div class="d-flex justify-space-between text-discount">
               <div>Delivery Fee</div>
-              <div>฿{{ cart.DeliveryFeeRaw }}</div>
+              <div>฿{{ cart.DeliveryFee.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
             <div class="d-flex justify-space-between title-total">
               <div>Total</div>
-              <div>฿{{ cart.TotalPayable }}</div>
+              <div>฿{{ cart.TotalPayable.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
             <v-btn
               block
               class="mt-4"
+              @click="comfirmPayment"
             >Checkout</v-btn>
           </div>
         </div>
@@ -156,81 +175,20 @@ const cart = useCart();
 import { useProducts } from "@/stores/products";
 const products = useProducts();
 const router = useRouter();
-const itemCart = [
-  {
-    sku: 1,
-    brand: "CA",
-    name: "T-Bone Slice 300g.",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1551028150-64b9f398f678?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 250.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-];
-
+const code = ref("");
 const amountProduct = ref(1);
 const model = ref(null);
+
+// update amount not null
+function updateAmount(item: CartModel, val: number | null | "") {
+  console.log("val", val);
+
+  if (val === null || val === "" || val < 1) {
+    item.amount = 1;
+  } else {
+    item.amount = val;
+  }
+}
 
 function goToHome() {
   console.log("goToHome");
@@ -253,9 +211,36 @@ function removeProduct(item: CartModel) {
   });
 }
 
-cart.loadConfig();
-console.log(products.RecommendedProducts);
+function addProductToCart(item: CartModel) {
+  cart.getProductsInCart(item);
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Add to cart success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
 
+function comfirmPayment() {
+  Swal.fire({
+    title: "Confirm Your Order",
+    text: "Do you want to proceed to payment?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Pay Now",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push("/home/checkout");
+    }
+  });
+}
+
+cart.loadConfig();
+products.getProducts();
+console.log(products.RecommendedProducts);
 </script>
 
 <style scoped>
@@ -265,21 +250,21 @@ console.log(products.RecommendedProducts);
   background-color: pink;
 }
 
-.text-title { 
+.text-title {
   font-size: 40px;
   font-weight: bold;
   margin-top: 30px;
 }
- 
-.text-sub-title { 
+
+.text-sub-title {
   font-size: 40px;
 }
 
-.title-total { 
+.title-total {
   font-size: 35px;
   font-weight: bold;
 }
- 
+
 .text-primary {
   font-size: 20px;
 }
@@ -314,7 +299,7 @@ console.log(products.RecommendedProducts);
 
 .layout-product-cart {
   width: 55%;
-  height: 90vh;  
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -322,7 +307,7 @@ console.log(products.RecommendedProducts);
 
 .product-card {
   flex: 1 1 auto;
-  min-height: 0; 
+  min-height: 0;
   overflow-y: auto;
   border: 1px solid #ddd;
   padding: 10px;
@@ -356,9 +341,9 @@ console.log(products.RecommendedProducts);
 }
 
 .text-ellipsis {
-  white-space: nowrap;        /* ไม่ตัดบรรทัด */
-  overflow: hidden;           /* ซ่อนเนื้อหาที่เกิน */
-  text-overflow: ellipsis;    /* แสดง ... */
+  white-space: nowrap; /* ไม่ตัดบรรทัด */
+  overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+  text-overflow: ellipsis; /* แสดง ... */
 }
 
 @media (max-width: 900px) {

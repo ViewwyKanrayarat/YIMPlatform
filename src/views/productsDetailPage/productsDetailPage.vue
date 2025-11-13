@@ -31,7 +31,7 @@
           <div class="price-detail">฿{{ items.price.toFixed(2) }} / EA</div>
           <div class="d-flex justify-space-between">
             <div>Product Detail</div>
-            <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
+            <v-btn class="mt-2" color="#F14725" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
           </div>
           <div>SKU: {{ items.sku }}</div>
           <div>Brand: {{ items.brand }}</div>

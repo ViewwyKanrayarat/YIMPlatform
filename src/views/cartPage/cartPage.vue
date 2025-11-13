@@ -90,7 +90,6 @@
               >
                 <v-card
                   class="ma-4"
-                  color="grey-lighten-1"
                   height="220"
                   width="160"
                 >
@@ -106,7 +105,7 @@
                     <div class="text-caption">฿{{ item.price.toFixed(2) }} / EA</div>
                     <v-btn
                       size="small"
-                      color="orange"
+                      color="#F14725"
                       prepend-icon="mdi-plus"
                       @click="addProductToCart(item)"
                     > Add to cart </v-btn>
@@ -128,7 +127,6 @@
             <div class="text-primary my-5">Promotion Code</div>
             <div
               class="layout-promotion"
-              style="background-color: red;"
             >
               <v-text-field
                 v-model="code"
@@ -140,7 +138,7 @@
               ></v-text-field>
               <v-btn
                 class="button-apply"
-                color="orange"
+                color="#F14725"
                 height="50"
                 @click="cart.calPromotionDiscount(code)"
                 :disabled="code === ''"
@@ -173,6 +171,9 @@
               block
               class="mt-4"
               @click="comfirmPayment"
+              color="#F14725"
+              height="50"
+              rounded="20"
             >Checkout</v-btn>
           </div>
         </div>

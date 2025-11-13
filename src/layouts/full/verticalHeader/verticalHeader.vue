@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar height="70" elevation="0" color="orange">
+  <v-app-bar height="70" elevation="0" color="#F14725">
     <div class="d-flex justify-space-between align-center px-10" style="flex: 1">
       <!-- logo -->
       <div>

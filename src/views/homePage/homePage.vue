@@ -123,24 +123,20 @@ init()
   height: 100%;
   margin-top: 25px;
   margin-bottom: 25px;
-  background-color: red;
 }
 
 .filter-content {
   width: 20%;
   display: flex;
   justify-content: center;
-  background-color: blue;
 }
 
 .layout-filter {
   width: 90%;
-  background-color: red;
 }
 
 .product-content {
   width: 80%;
-  background-color: green;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,7 +144,6 @@ init()
 
 .layout-product {
   width: 90%;
-  background-color: lightblue;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;

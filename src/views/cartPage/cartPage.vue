@@ -17,19 +17,29 @@
               :key="index"
             >
               <v-row>
-                <v-col cols="2">
+                <v-col
+                  cols="4"
+                  md="4"
+                  lg="2"
+                  class="img-card-img"
+                >
                   <v-img
                     :src="item.image_url[0]"
-                    class="img-top"
+                    class="img-size"
                   />
                 </v-col>
 
-                <v-col cols="6">
+                <v-col
+                  cols="4"
+                  md="4"
+                  lg="6"
+                  class="img-card-detail"
+                >
                   <div class="text-number">SKU {{ item.sku }}</div>
                   <div>{{ item.name }}</div>
-                  <div class="pt-5">฿{{ item.price }} / EA</div>
+                  <div class="">฿{{ item.price }} / EA</div>
                   <v-btn
-                    class="mt-3"
+                    class=""
                     prepend-icon="mdi-trash-can-outline"
                     variant="text"
                     color="red"
@@ -37,7 +47,12 @@
                   >remove</v-btn>
                 </v-col>
 
-                <v-col cols="4">
+                <v-col
+                  cols="4"
+                  md="4"
+                  lg="4"
+                  class="img-card-input"
+                >
                   <v-number-input
                     v-model="item.amount"
                     :max="999"
@@ -49,11 +64,12 @@
                     :inset="false"
                     base-color="primary"
                     @update:model-value="val => updateAmount(item, val)"
+                    hide-details
                   ></v-number-input>
-                  <div class="text-price">฿{{ (item.amount * item.price).toFixed(2) }}</div>
+                  <div class="text-price mt-2">฿{{ (item.amount * item.price).toFixed(2) }}</div>
                 </v-col>
               </v-row>
-              <hr class="my-5">
+              <hr class="">
               </hr>
             </div>
             <div
@@ -62,7 +78,10 @@
             >There are no items in this cart</div>
           </div>
           <!-- product recommend -->
-          <div class="layout-recommend pa-5">
+          <div
+            v-if="products.RecommendedProducts.length > 0"
+            class="layout-recommend pa-5"
+          >
             <div class="title-text-recommend">Recommend</div>
             <v-slide-group show-arrows>
               <v-slide-group-item
@@ -106,9 +125,9 @@
           <!-- promotion -->
           <div>
             <div class="text-sub-title">Summary</div>
-            <div class="text-primary pt-5">Promotion Code</div>
+            <div class="text-primary my-5">Promotion Code</div>
             <div
-              class="d-flex pt-2"
+              class="layout-promotion"
               style="background-color: red;"
             >
               <v-text-field
@@ -118,9 +137,9 @@
                 density="compact"
                 hide-details
                 height="50"
-                class="mr-2"
               ></v-text-field>
               <v-btn
+                class="button-apply"
                 color="orange"
                 height="50"
                 @click="cart.calPromotionDiscount(code)"
@@ -224,12 +243,12 @@ function addProductToCart(item: CartModel) {
 }
 
 function generateOrderId() {
-  const now = new Date()
-  const y = now.getFullYear()
-  const m = String(now.getMonth() + 1).padStart(2, "0")
-  const d = String(now.getDate()).padStart(2, "0")
-  const timestamp = now.getTime().toString().slice(-6) // 6 หลักท้ายของ time
-  return `${y}${m}${d}${timestamp}`
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  const timestamp = now.getTime().toString().slice(-6); // 6 หลักท้ายของ time
+  return `${y}${m}${d}${timestamp}`;
 }
 
 function comfirmPayment() {
@@ -262,7 +281,6 @@ console.log(products.RecommendedProducts);
 .layout-content {
   height: 100%;
   margin: 25px;
-  background-color: pink;
 }
 
 .text-title {
@@ -299,7 +317,6 @@ console.log(products.RecommendedProducts);
 
 .text-number {
   font-size: 14px;
-  color: gray;
 }
 
 .layout-cart {
@@ -309,7 +326,6 @@ console.log(products.RecommendedProducts);
   justify-content: space-between;
   margin-top: 25px;
   margin-bottom: 25px;
-  background-color: green;
 }
 
 .layout-product-cart {
@@ -327,13 +343,11 @@ console.log(products.RecommendedProducts);
   border: 1px solid #ddd;
   padding: 10px;
   box-sizing: border-box;
-  background-color: yellow;
 }
 
 .layout-recommend {
   flex: 0 0 320px;
   border: 1px solid black;
-  background-color: blue;
   overflow: hidden;
 }
 
@@ -349,25 +363,103 @@ console.log(products.RecommendedProducts);
   display: flex;
 }
 
-.img-top {
-  width: auto;
-  height: auto;
-  max-width: 200px;
-}
-
 .text-ellipsis {
-  white-space: nowrap; /* ไม่ตัดบรรทัด */
-  overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
-  text-overflow: ellipsis; /* แสดง ... */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.img-card-img {
+  width: 100%;
+}
+
+.img-size {
+  width: 100%;
+  height: auto;
+}
+
+.layout-promotion {
+  display: flex;
+  padding-top: 10px;
+}
+
+.button-apply{
+  margin-left: 10px;
+}
 @media (max-width: 900px) {
   .layout-product-cart {
     width: 100%;
   }
 
-  .layout-summary {
+  .layout-summary-cart {
     width: 100%;
+  }
+
+  .img-card-img {
+    max-width: 200px;
+  }
+
+  .text-discount {
+    font-size: 25px;
+  }
+
+  .title-total {
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
+
+.img-card-input {
+  text-align: end;
+}
+
+@media (max-width: 400px) {
+  .layout-promotion {
+    display:unset;
+    margin-bottom:10px;
+  }
+  .layout-content {
+    margin: 5px;
+  }
+  .button-apply{
+    width: 100%;
+    margin-left: 0px;
+    margin-bottom: 15px;
+    margin-top: 20px;
+  }
+  .cart-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  .img-card-img {
+    flex: 0 0 100px !important;
+    max-width: 100px !important;
+  }
+  .img-size {
+    width: 100px;
+    height: 100px;
+  }
+
+  .img-card-detail {
+    flex: 1 1 auto !important;
+    max-width: calc(100% - 100px) !important;
+  }
+
+  .img-card-input {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .text-discount {
+    font-size: 20px;
+  }
+
+  .title-total {
+    font-size: 25px;
+    font-weight: bold;
   }
 }
 </style>

@@ -47,6 +47,7 @@
                     :hideInput="false"
                     :inset="false"
                     base-color="primary"
+                    @update:model-value="val => updateAmount(item, val)"
                   ></v-number-input>
                   <div class="text-price">฿{{ (item.amount * item.price).toFixed(2) }}</div>
                 </v-col>
@@ -118,12 +119,12 @@
           <div>
             <div class="d-flex justify-space-between text-discount">
               <div>Subtotal</div>
-              <div >฿{{ cart.TotalPrice }}</div>
+              <div>฿{{ cart.TotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
             </div>
-            <!-- <div class="d-flex justify-space-between text-discount">
+            <div class="d-flex justify-space-between text-discount">
               <div>Discount</div>
               <div >฿100</div>
-            </div> -->
+            </div>
             <div class="d-flex justify-space-between text-discount">
               <div>Delivery Fee</div>
               <div>฿{{ cart.DeliveryFeeRaw }}</div>
@@ -156,78 +157,18 @@ const cart = useCart();
 import { useProducts } from "@/stores/products";
 const products = useProducts();
 const router = useRouter();
-const itemCart = [
-  {
-    sku: 1,
-    brand: "CA",
-    name: "T-Bone Slice 300g.",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1551028150-64b9f398f678?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 250.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-  {
-    sku: 2,
-    brand: "CA",
-    name: "Eggs No.1 Pack 30",
-    pack_size: "1",
-    image_url: [
-      "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80",
-    ],
-    price: 149.0,
-  },
-];
+
+// update amount not null
+function updateAmount(item:CartModel, val: number | null | '') {
+  console.log('val',val);
+  
+  if (val === null || val === "" || val < 1) {
+    item.amount = 1
+  } else {
+    item.amount = val
+  }
+}
+
 
 const amountProduct = ref(1);
 const model = ref(null);
@@ -253,7 +194,8 @@ function removeProduct(item: CartModel) {
   });
 }
 
-cart.loadConfig();
+// cart.loadConfig();
+products.getProducts()
 console.log(products.RecommendedProducts);
 
 </script>

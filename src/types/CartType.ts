@@ -12,6 +12,7 @@ export interface Getters extends _GettersTree<State> {
 
 export interface Actions {
   getProductsInCart(product: CartModel): void
+  removeProduct(sku: number): void
 }
 
 export type CartModel = ProductModel & {

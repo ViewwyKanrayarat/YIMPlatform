@@ -6,7 +6,7 @@
         prepend-icon="mdi-arrow-left"
         @click="goToHome"
       >Back</v-btn>
-      <div class="title-cart">Cart</div>
+      <div class="text-title">Cart</div>
       <div class="layout-cart">
         <!-- left -->
         <div class="layout-product-cart">
@@ -26,9 +26,9 @@
 
                 <v-col cols="6">
                   <div class="text-number">SKU {{ item.sku }}</div>
-                  <div>{{ item.name }}</div>
-                  <div>฿{{ item.price }} / EA</div>
-                  <v-btn
+                  <div >{{ item.name }}</div>
+                  <div class="pt-5">฿{{ item.price }} / EA</div>
+                  <v-btn class="mt-3"
                     prepend-icon="mdi-trash-can-outline"
                     variant="text"
                     color="red"
@@ -61,8 +61,7 @@
           </div>
           <!-- product recommend -->
           <div class="layout-recommend pa-5">
-            <div class="title-text-recommend">Recommend</div>
-
+            <div class="title-text-recommend">Recommenddddddddddd</div>
             <v-slide-group show-arrows>
               <v-slide-group-item
                 v-for="item in products.RecommendedProducts"
@@ -100,9 +99,9 @@
         <!-- right -->
         <div class="layout-summary-cart pa-5">
           <div>
-            <div class="title-text">Summary</div>
-            <div>Promotion Code</div>
-            <div class="d-flex">
+            <div class="text-sub-title">Summary</div>
+            <div class="text-primary pt-5">Promotion Code</div>
+            <div class="d-flex pt-2">
               <v-text-field
                 label="Promotion Code"
                 variant="outlined"
@@ -117,17 +116,21 @@
           </div>
 
           <div>
-            <div class="d-flex justify-space-between">
+            <div class="d-flex justify-space-between text-discount">
               <div>Subtotal</div>
-              <div>฿33333</div>
+              <div >฿{{ cart.TotalPrice }}</div>
             </div>
-            <div class="d-flex justify-space-between">
+            <!-- <div class="d-flex justify-space-between text-discount">
               <div>Discount</div>
-              <div>฿100</div>
+              <div >฿100</div>
+            </div> -->
+            <div class="d-flex justify-space-between text-discount">
+              <div>Delivery Fee</div>
+              <div>฿{{ cart.DeliveryFeeRaw }}</div>
             </div>
-            <div class="d-flex justify-space-between">
-              <div>Delivery Free</div>
-              <div>฿0</div>
+            <div class="d-flex justify-space-between title-total">
+              <div>Total</div>
+              <div>฿{{ cart.TotalPayable }}</div>
             </div>
             <v-btn
               block
@@ -249,6 +252,10 @@ function removeProduct(item: CartModel) {
     }
   });
 }
+
+cart.loadConfig();
+console.log(products.RecommendedProducts);
+
 </script>
 
 <style scoped>
@@ -258,14 +265,27 @@ function removeProduct(item: CartModel) {
   background-color: pink;
 }
 
-.title-cart {
+.text-title { 
   font-size: 40px;
   font-weight: bold;
   margin-top: 30px;
 }
-
-.title-text {
+ 
+.text-sub-title { 
   font-size: 40px;
+}
+
+.title-total { 
+  font-size: 35px;
+  font-weight: bold;
+}
+ 
+.text-primary {
+  font-size: 20px;
+}
+
+.text-discount {
+  font-size: 30px;
 }
 
 .title-text-recommend {

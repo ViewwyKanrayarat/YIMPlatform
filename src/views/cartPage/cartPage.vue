@@ -89,7 +89,7 @@
                       size="small"
                       color="orange"
                       prepend-icon="mdi-plus"
-                      @click="cart.getProductsInCart(item)"
+                      @click="addProductToCart(item)"
                     > Add to cart </v-btn>
                   </div>
                 </v-card>
@@ -107,17 +107,22 @@
           <div>
             <div class="text-sub-title">Summary</div>
             <div class="text-primary pt-5">Promotion Code</div>
-            <div class="d-flex pt-2">
+            <div
+              class="d-flex pt-2"
+              style="background-color: red;"
+            >
               <v-text-field
                 v-model="code"
                 label="Promotion Code"
                 variant="outlined"
                 density="compact"
                 hide-details
+                height="50"
+                class="mr-2"
               ></v-text-field>
               <v-btn
                 color="orange"
-                class="mt-2"
+                height="50"
                 @click="cart.calPromotionDiscount(code)"
                 :disabled="code === ''"
               >Apply</v-btn>
@@ -148,6 +153,7 @@
             <v-btn
               block
               class="mt-4"
+              @click="comfirmPayment"
             >Checkout</v-btn>
           </div>
         </div>
@@ -201,6 +207,33 @@ function removeProduct(item: CartModel) {
   }).then((result) => {
     if (result.isConfirmed) {
       cart.removeProduct(item.sku);
+    }
+  });
+}
+
+function addProductToCart(item: CartModel) {
+  cart.getProductsInCart(item);
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Add to cart success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+
+function comfirmPayment() {
+  Swal.fire({
+    title: "Confirm Your Order",
+    text: "Do you want to proceed to payment?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Pay Now",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push("/home/checkout");
     }
   });
 }

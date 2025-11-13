@@ -31,7 +31,7 @@
           <div class="price-detail">฿{{ items.price.toFixed(2) }} / EA</div>
           <div class="d-flex justify-space-between">
             <div>Product Detail</div>
-            <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
+            <v-btn class="mt-2" color="#F14725" prepend-icon="mdi-plus" @click="addProductToCart"> Add to cart </v-btn>
           </div>
           <div>SKU: {{ items.sku }}</div>
           <div>Brand: {{ items.brand }}</div>
@@ -92,7 +92,6 @@ watch(
 )
 
 function addProductToCart() {
-  console.log("DETAIL PAGE", items.value)
   cart.getProductsInCart(items.value)
   Swal.fire({
     position: 'center',
@@ -119,11 +118,7 @@ init()
 <style scoped>
 .layout-content {
   height: 100%;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  padding-right: 25px;
-  padding-left: 25px;
-  background-color: pink;
+  margin: 25px;
 }
 
 .detail-content {
@@ -136,7 +131,6 @@ init()
 
 .img-detail {
   width: 40%;
-  background-color: red;
 }
 
 .layout-img {
@@ -152,7 +146,6 @@ init()
 
 .img-bottom {
   width: 100%;
-  background-color: yellow;
   display: flex;
   justify-content: center;
   padding-top: 50px;
@@ -176,7 +169,6 @@ init()
 
 .product-detail {
   width: 60%;
-  background-color: blue;
 }
 
 .title-detail {
@@ -199,6 +191,12 @@ init()
     width: 100%;
     height: auto;
     max-width: 400px;
+  }
+}
+
+@media (max-width: 400px) {
+  .layout-content {
+    margin: 5px;
   }
 }
 </style>

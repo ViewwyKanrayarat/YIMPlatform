@@ -4,15 +4,16 @@
     <v-img :src="items?.image_url?.[0] || ''" class="img-resize" cover />
 
     <!-- SKU -->
-    <div>SKU: {{ props.items.sku }}</div>
+    <div class="text-sku">SKU: {{ props.items.sku }}</div>
 
     <!-- ชื่อสินค้า -->
-    <div>{{ props.items.name }}</div>
+    <div class="text-name">{{ props.items.name }}</div>
 
     <!-- ราคา -->
-    <div>฿{{ props.items.price.toFixed(2) }} / EA</div>
-
-    <v-btn class="mt-2" color="orange" prepend-icon="mdi-plus" @click.stop="cart.getProductsInCart(props.items)"> Add to cart </v-btn>
+    <div class="d-flex justify-space-between">
+      <div>฿{{ props.items.price.toFixed(2) }} / EA</div>
+      <v-btn class="button-add" prepend-icon="mdi-plus" @click.stop="cart.getProductsInCart(props.items)"> Add to cart </v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -49,11 +50,6 @@ const props = withDefaults(defineProps<propsModel>(), {
 function goToDetail() {
   router.push(`home/detail/${props.items.sku}`)
 }
-
-// function addProductToCart() {
-//   console.log("addProductToCart",props.items)
-//   cart.getProductsInCart(props.items)
-// }
 </script>
 
 <style scoped>
@@ -64,7 +60,19 @@ function goToDetail() {
 .img-resize {
   height: 250px;
 }
+.text-sku {
+  color: gray;
+  margin-top: 10px;
+}
+.text-name {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.button-add{
+  color: white;
+  background-color: #F14725;
 
+}
 @media (max-width: 850px) {
   .img-resize {
     height: 150px;

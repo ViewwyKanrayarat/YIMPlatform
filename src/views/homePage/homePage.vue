@@ -5,6 +5,7 @@
       <!-- filter -->
       <div class="filter-content">
         <div class="layout-filter">
+          <div class="title-text">Filter</div>
           <v-text-field
             v-model="search"
             placeholder="Keyword"
@@ -65,9 +66,12 @@
       </div>
       <!-- products -->
       <div class="product-content">
-        <div class="layout-product">
-          <div class="product-card" v-for="(product, index) in products.Products" :key="index">
-            <Products :items="product" />
+        <div class="title-text-product title-text">Product</div>
+        <div class="layout-content">
+          <div class="layout-product">
+            <div class="product-card" v-for="(product, index) in products.Products" :key="index">
+              <Products :items="product" />
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +102,6 @@ async function changeSearch() {
     min: minPrice.value != null ? Number(minPrice.value) : null,
     max: maxPrice.value != null ? Number(maxPrice.value) : null,
   }
-  console.log("HOME", filter)
   await products.getProducts(filter)
 }
 
@@ -123,42 +126,47 @@ init()
   height: 100%;
   margin-top: 25px;
   margin-bottom: 25px;
-  background-color: red;
 }
 
 .filter-content {
   width: 20%;
   display: flex;
   justify-content: center;
-  background-color: blue;
 }
 
 .layout-filter {
   width: 90%;
-  background-color: red;
 }
 
 .product-content {
   width: 80%;
-  background-color: green;
+}
+
+.layout-content {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .layout-product {
-  width: 90%;
-  background-color: lightblue;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
   align-items: stretch;
 }
-
+.title-text-product {
+  margin-left: 5%;
+}
 .product-card {
   display: flex;
 }
-
+.title-text {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 @media (max-width: 900px) {
   .filter-content {
     width: 100%;

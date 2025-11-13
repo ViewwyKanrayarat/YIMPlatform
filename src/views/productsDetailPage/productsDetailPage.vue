@@ -92,7 +92,6 @@ watch(
 )
 
 function addProductToCart() {
-  console.log("DETAIL PAGE", items.value)
   cart.getProductsInCart(items.value)
   Swal.fire({
     position: 'center',

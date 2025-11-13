@@ -102,7 +102,6 @@ async function changeSearch() {
     min: minPrice.value != null ? Number(minPrice.value) : null,
     max: maxPrice.value != null ? Number(maxPrice.value) : null,
   }
-  console.log("HOME", filter)
   await products.getProducts(filter)
 }
 

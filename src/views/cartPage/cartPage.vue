@@ -202,8 +202,6 @@ const model = ref(null);
 
 // update amount not null
 function updateAmount(item: CartModel, val: number | null | "") {
-  console.log("val", val);
-
   if (val === null || val === "" || val < 1) {
     item.amount = 1;
   } else {
@@ -212,7 +210,6 @@ function updateAmount(item: CartModel, val: number | null | "") {
 }
 
 function goToHome() {
-  console.log("goToHome");
   router.push("/");
 }
 
@@ -264,7 +261,6 @@ function comfirmPayment() {
   }).then((result) => {
     if (result.isConfirmed) {
       const paymentId = generateOrderId();
-      console.log("Payment ID:", paymentId);
       router.push({
         path: "/home/checkout",
         query: { paymentId },
@@ -275,7 +271,6 @@ function comfirmPayment() {
 
 cart.loadConfig();
 products.getProducts();
-console.log(products.RecommendedProducts);
 </script>
 
 <style scoped>

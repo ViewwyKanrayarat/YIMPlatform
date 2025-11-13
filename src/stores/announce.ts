@@ -1,11 +1,22 @@
 import { defineStore } from "pinia"
+import type { State, Getters, Actions} from "../types/AnnounceType"
 
-export const useAnnounce = defineStore("announce", {
-  state: () => ({
-    list: [] as unknown[],
+export const useAnnounce = defineStore<"announce", State, Getters, Actions>("announce", {
+  state: (): State  => ({
+    list: {
+      config: {
+        delivery_fee: {
+          delivery_fee_amount: 0,
+          minimum_cart_amount: 0,
+        },
+        promotion: {
+          discount_code: "",
+          discount_amount:0
+        },
+    }},
   }),
     getters: {
-    List(state): unknown[] {
+    List(state){
       return state.list
     },
 
@@ -16,7 +27,6 @@ export const useAnnounce = defineStore("announce", {
         const res = await fetch("../../public/data/AppendixA.json")
         const data = await res.json()
         this.list = data
-        // console.log("this.list", this.list)
       } catch (e: any) {
         console.log(e);
     

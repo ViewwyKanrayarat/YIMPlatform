@@ -9,7 +9,7 @@
       <div class="text-title">Cart</div>
       <div class="layout-cart">
         <!-- CART -->
-        <div class="layout-product-cart">
+        <div :class="cart.TotalPrice > 0 ? 'layout-product-cart' : 'layout-product-cart-full'">
           <!-- product in cart -->
           <div class="product-card">
             <div
@@ -35,11 +35,11 @@
                   lg="6"
                   class="img-card-detail"
                 >
-                  <div class="text-number">SKU {{ item.sku }}</div>
-                  <div>{{ item.name }}</div>
-                  <div class="">฿{{ item.price }} / EA</div>
+                  <div class="text-sku">SKU {{ item.sku }}</div>
+                  <div class="text-name">{{ item.name }}</div>
+                  <div class="mt-2">฿{{ item.price }} / EA</div>
                   <v-btn
-                    class=""
+                    class="mt-2"
                     prepend-icon="mdi-trash-can-outline"
                     variant="text"
                     color="red"
@@ -66,7 +66,7 @@
                     @update:model-value="val => updateAmount(item, val)"
                     hide-details
                   ></v-number-input>
-                  <div class="text-price mt-2">฿{{ (item.amount * item.price).toFixed(2) }}</div>
+                  <div class="text-price mt-4">฿{{ (item.amount * item.price).toFixed(2) }}</div>
                 </v-col>
               </v-row>
               <hr class="">
@@ -100,9 +100,9 @@
                   />
 
                   <div class="pa-2">
-                    <div class="text-subtitle">SKU {{ item.sku }}</div>
-                    <div class="text-subtitle text-ellipsis">{{ item.name }}</div>
-                    <div class="text-caption">฿{{ item.price.toFixed(2) }} / EA</div>
+                    <div class="text-rec-sku">SKU {{ item.sku }}</div>
+                    <div class="text-ellipsis">{{ item.name }}</div>
+                    <div class="text-rec-price my-1">฿{{ item.price.toFixed(2) }} / EA</div>
                     <v-btn
                       size="small"
                       color="#F14725"
@@ -118,13 +118,13 @@
         </div>
         <!-- SUMMARY -->
         <div
-          v-if="cart.TotalPrice>0"
+          v-if="cart.TotalPrice >0 "
           class="layout-summary-cart pa-5"
         >
           <!-- promotion -->
           <div>
             <div class="text-sub-title">Summary</div>
-            <div class="text-primary my-5">Promotion Code</div>
+            <div class="mt-5">Promotion Code</div>
             <div
               class="layout-promotion"
             >
@@ -274,188 +274,5 @@ products.getProducts();
 </script>
 
 <style scoped>
-.layout-content {
-  height: 100%;
-  margin: 25px;
-}
-
-.text-title {
-  font-size: 40px;
-  font-weight: bold;
-  margin-top: 30px;
-}
-
-.text-sub-title {
-  font-size: 40px;
-}
-
-.title-total {
-  font-size: 35px;
-  font-weight: bold;
-}
-
-.text-primary {
-  font-size: 20px;
-}
-
-.text-discount {
-  font-size: 30px;
-}
-
-.title-text-recommend {
-  font-size: 30px;
-}
-
-.text-price {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.text-number {
-  font-size: 14px;
-}
-
-.layout-cart {
-  height: 80%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
-.layout-product-cart {
-  width: 55%;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.product-card {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.layout-recommend {
-  flex: 0 0 320px;
-  border: 1px solid black;
-  overflow: hidden;
-}
-
-.layout-summary-cart {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid black;
-}
-
-.recommend-card {
-  display: flex;
-}
-
-.text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.img-card-img {
-  width: 100%;
-}
-
-.img-size {
-  width: 100%;
-  height: auto;
-}
-
-.layout-promotion {
-  display: flex;
-  padding-top: 10px;
-}
-
-.button-apply{
-  margin-left: 10px;
-}
-@media (max-width: 900px) {
-  .layout-product-cart {
-    width: 100%;
-  }
-
-  .layout-summary-cart {
-    width: 100%;
-  }
-
-  .img-card-img {
-    max-width: 200px;
-  }
-
-  .text-discount {
-    font-size: 25px;
-  }
-
-  .title-total {
-    font-size: 30px;
-    font-weight: bold;
-  }
-}
-
-.img-card-input {
-  text-align: end;
-}
-
-@media (max-width: 400px) {
-  .layout-promotion {
-    display:unset;
-    margin-bottom:10px;
-  }
-  .layout-content {
-    margin: 5px;
-  }
-  .button-apply{
-    width: 100%;
-    margin-left: 0px;
-    margin-bottom: 15px;
-    margin-top: 20px;
-  }
-  .cart-row {
-    display: flex !important;
-    flex-wrap: wrap !important;
-  }
-
-  .img-card-img {
-    flex: 0 0 100px !important;
-    max-width: 100px !important;
-  }
-  .img-size {
-    width: 100px;
-    height: 100px;
-  }
-
-  .img-card-detail {
-    flex: 1 1 auto !important;
-    max-width: calc(100% - 100px) !important;
-  }
-
-  .img-card-input {
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .text-discount {
-    font-size: 20px;
-  }
-
-  .title-total {
-    font-size: 25px;
-    font-weight: bold;
-  }
-}
+@import "@/css/pages/cart.css";
 </style>

@@ -85,6 +85,7 @@
             @click="goToHome"
             size="x-large"
             width="500px"
+            color="#F14725"
           >Back to Home Page</v-btn>
         </div>
       </div>
@@ -112,94 +113,5 @@ const goToHome = () => {
 </script>
 
 <style scoped>
-.card-content {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  margin: 25px;
-}
-
-.order-content {
-  width: 55%;
-}
-
-.payment-content {
-  width: 45%;
-  padding-left:  5%;
-  padding-right:  5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.summary-payment {
-  /* background-color: yellow; */
-}
-
-.product-card {
-  height: 80%;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  box-sizing: border-box;
-  margin-top: 30px;
-  padding-left: 5%;
-}
-
-.text-title {
-  font-size: 40px;
-  font-weight: bold;
-  margin-top: 30px;
-}
-
-.text-sub-title {
-  font-size: 25px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.text-section {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.text-sum {
-  font-size: 32px;
-  font-weight: bold;
-}
-
-.space-top {
-  margin-top: 130px;
-}
-
-.text-price {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-@media (max-width: 900px) {
-  .order-content {
-    width: 100%;
-  }
-  .payment-content {
-    width: 100%;
-  }
-  .space-top {
-    margin-top: 0px;
-  }
-  .product-card {
-    padding-left: 10px;
-  }
-  .payment-content {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
-
-@media (max-width: 400px) {
-  .card-content {
-    margin: 5px;
-  }
-}
+@import "@/css/pages/checkout.css";
 </style>

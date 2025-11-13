@@ -120,67 +120,6 @@ init()
 </script>
 
 <style scoped>
-.card-content {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
+@import "@/css/pages/home.css";
 
-.filter-content {
-  width: 20%;
-  display: flex;
-  justify-content: center;
-}
-
-.layout-filter {
-  width: 90%;
-}
-
-.product-content {
-  width: 80%;
-}
-
-.layout-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.layout-product {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  margin-left: 5%;
-  margin-right: 5%;
-  align-items: stretch;
-}
-.title-text-product {
-  margin-left: 5%;
-}
-.product-card {
-  display: flex;
-}
-.title-text {
-  font-size: 30px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-@media (max-width: 900px) {
-  .filter-content {
-    width: 100%;
-  }
-
-  .product-content {
-    width: 100%;
-    padding-top: 50px;
-  }
-}
-
-@media (max-width: 600px) {
-  .layout-product {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-}
 </style>

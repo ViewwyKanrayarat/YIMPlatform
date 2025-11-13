@@ -23,8 +23,8 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
     },
     RecommendedProducts(state) {
       const cart = useCart()
-      const cartSkus = new Set(cart.Cart.map(i => i.sku))
-      return state.products.filter(p => !cartSkus.has(p.sku))
+      const cartSku = new Set(cart.Cart.map(i => i.sku))
+      return state.products.filter(p => !cartSku.has(p.sku))
     },
   },
   actions: {
@@ -68,6 +68,6 @@ export const useProducts = defineStore<"products", State, Getters, Actions>("pro
       } catch (e: any) {
         console.log(e)
       }
-    },
+    }
   },
 })
